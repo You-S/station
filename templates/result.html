@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>結果発表</h1>
+    <p>あなたの回答した「{{ answer }}」は</p>
+    <h2>{{ comment }}</h2>
+    <p>です！</p>
+    {% if answer != colect %}
+    <p>正解は</p>
+    <h2>{{ colect }}</h2>
+    <p>です！</p>
+    {% endif %}
+    <p><a href='/'>出題に戻る</a></p>
+</body>
+</html>
