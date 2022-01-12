@@ -27,16 +27,14 @@ def index():
 
 @app.route('/check', methods=['POST'])
 def check():
-    check = request.form['answer']
+    answer = request.form['answer']
     colect = request.form['colect']
-    if check == colect:
-        comment = "正解"
+    if answer == colect:
+        result = "正解"
     else:
-        comment = "不正解"
-    answer =  check
-    colect = colect
-    print(answer,comment,colect)
-    return render_template('result.html', comment=comment, answer=answer, colect=colect)  
+        result = "不正解"
+    # print(answer,comment,colect)
+    return render_template('result.html', result=result, answer=answer, colect=colect)  
 
 if __name__ == '__main__':
     port = os.getenv("PORT")
