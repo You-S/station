@@ -4,12 +4,22 @@
     <h1>結果発表</h1>
     <span>あなたの回答した「{{ answer }}」は</span>
     <h2>{{ result }}</h2>
+
     {% if answer != colect %}
-    <span>正解は</span>
-    <h2>「{{ colect }}」</h2>
-    <span>残念！！</span>
+        <span>正解は</span>
+        <h2>「{{ colect }}」</h2>
+        <span>残念！！</span>
+
     {% else %}
-    <span>素晴らしい！！</span>
+        {% if counter > 9 %}
+            <span>現在{{ counter }}連続正解中！</span>
+            <br><span>凄すぎる！！</span>
+        {% elif counter > 1 %}
+            <span>現在{{ counter }}連続正解中！</span>
+            <br><span>素晴らしい！！</span>
+        {% else %}
+        <br><span>素晴らしい！！</span>
+        {% endif %}
     {% endif %}
     <p><a href='/'>出題に戻る</a></p>
 </div>
