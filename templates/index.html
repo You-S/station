@@ -4,7 +4,7 @@
     <h1>駅名読み問題</h1>
     {% for station in station %}
     <h2>「{{ station.name }}」</h2>
-    <span>この駅名は何と読む？<br>ひらがなで入力して下さい</span>
+    <span>この駅名は何と読む？<br>ひらがなで入力して下さい(カタカナはそのままで)</span>
     {% if station.place != "" %}
     <br>（{{ station.place }}にある駅です）
     {% endif %}
