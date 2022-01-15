@@ -11,6 +11,8 @@ from werkzeug.datastructures import Authorization
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///stationData.db'
 db = SQLAlchemy(app)
+app.secret_key = 'secret'
+app.permanent_session_lifetime = timedelta(minutes=60)
 
 class Station(db.Model):
     __tablename__ = 'stationData'
@@ -31,10 +33,16 @@ def check():
     colect = request.form['colect']
     if answer == colect:
         result = "正解"
+        if 'counter' in session:
+            session['counter'] += 1
+        else:
+            session['counter'] = 1
     else:
         result = "不正解"
+        session['counter'] = 0
     # print(answer,comment,colect)
-    return render_template('result.html', result=result, answer=answer, colect=colect)  
+    counter = session['counter']
+    return render_template('result.html', result=result, answer=answer, colect=colect,counter=counter)  
 
 if __name__ == '__main__':
     port = os.getenv("PORT")
