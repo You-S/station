@@ -1,0 +1,4 @@
+runtime: python39
+env: standard
+service: flask-test
+entrypoint: gunicorn -b :$PORT app:app
