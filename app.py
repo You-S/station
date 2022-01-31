@@ -17,13 +17,20 @@ app.permanent_session_lifetime = timedelta(minutes=60)
 class Station(db.Model):
     __tablename__ = 'stationData'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-    place = db.Column(db.String(30), nullable=False)
-    yomi = db.Column(db.String(30), nullable=False)
-
+    sid = db.Column(db.Integer)
+    uid = db.Column(db.Integer)
+    name = db.Column(db.String(50))
+    yomi = db.Column(db.String(50))
+    address = db.Column(db.String(50))
+    lon = db.Column(db.String(20))
+    lat = db.Column(db.String(20))
+    linename = db.Column(db.String(50))
+    linenameC = db.Column(db.String(50))
+    pref = db.Column(db.String(50))
+    
 @app.route('/')
 def index():
-    i = random.randint(1,8969)
+    i = random.randint(1,10865)
     station = Station.query.filter_by(id=i)
     return render_template('index.html', station=station)
 
