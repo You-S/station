@@ -21,6 +21,14 @@
         <br><span>素晴らしい！！</span>
         {% endif %}
     {% endif %}
-    <p><a href='/'>出題に戻る</a></p>
+    <p>
+        <form action="/quiz" method="post">
+            <input type="hidden" name="code" value={{ code }}>
+            <input type="submit" name="submit" value="同じ条件で続ける">
+        </form>
+    </p>
+    <p>
+        <a href='/'>条件を変えて挑戦する</a>
+    </p>
 </div>
 {% endblock %}

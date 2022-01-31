@@ -1,54 +1,71 @@
 import sqlite3
 import csv
 
-#dbを作成し、接続（すでに存在する場合は接続のみ）
 con = sqlite3.connect("stationData.db")
 cur = con.cursor()
 
-#テーブルを作成（IF NOT EXISTSは「存在しなければ作成する」という意味）
-create_test = "CREATE TABLE IF NOT EXISTS stationData (id INTEGER, sid INTEGER, uid INTEGER, name TEXT, yomi TEXT,address TEXT,lon TEXT,lat TEXT, linename TEXT, linenameC TEXT, pref INTEGER)"
-cur.execute(create_test)
+csv_list = ['station', 'line', 'pref']
 
-#テーブルのデータを削除（何回もコード実行すると同じデータ追加されるので）
-delete_test = "DELETE FROM stationData"
-cur.execute(delete_test)
+for table in csv_list:
+    if table == 'station':
+        create_test = "CREATE TABLE IF NOT EXISTS station (id INTEGER, stationNo INTEGER, stationUno INTEGER, name TEXT, yomi TEXT,lineid INTEGER, prefNo INTEGER, address TEXT,lon TEXT,lat TEXT)"
+        cur.execute(create_test)
 
-#csvファイルの指定
-open_csv = open("Station_output.csv")
+        delete_test = "DELETE FROM station"
+        cur.execute(delete_test)
 
-#csvファイルを読み込む
-read_csv = csv.reader(open_csv)
+        #csvファイルの指定
+        open_csv = open("Station_output.csv")
 
-#next()関数を用いて最初の行(列名)はスキップさせる
-#next_row = next(read_csv)
+        #csvファイルを読み込む
+        read_csv = csv.reader(open_csv)
+    
+        #csvデータをINSERTする
+        rows = []
+        for row in read_csv:
+            rows.append(row)
 
-#csvデータをINSERTする
-rows = []
-for row in read_csv:
-    rows.append(row)
+        #executemany()で複数のINSERTを実行する
+        cur.executemany(
+            "INSERT INTO station (id, stationNo, stationUno, name, yomi, lineid, prefNo, address, lon, lat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
+        
+    elif table == 'line':
+        create_test = "CREATE TABLE IF NOT EXISTS line (id INTEGER, lineid INTEGER, linename TEXT, lineCname TEXT)"
+        cur.execute(create_test)
 
-#executemany()で複数のINSERTを実行する
-cur.executemany(
-    "INSERT INTO stationData (id, sid, uid, name, yomi, address, lon, lat, linename, linenameC, pref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
+        delete_test = "DELETE FROM line"
+        cur.execute(delete_test)
 
-#テーブルの変更内容保存
-#csvも閉じておきましょう
-con.commit()
-open_csv.close()
+        open_csv = open("Line_output.csv")
+        read_csv = csv.reader(open_csv)
+    
+        rows = []
+        for row in read_csv:
+            rows.append(row)
 
-#testテーブルの確認
-select_test = "SELECT * FROM stationData"
+        cur.executemany(
+            "INSERT INTO line (id, lineid, linename, lineCname) VALUES (?, ?, ?, ?)", rows)
+        
+    elif table == 'pref':
+        create_test = "CREATE TABLE IF NOT EXISTS pref (id INTEGER, prefname TEXT)"
+        cur.execute(create_test)
 
-print("----------------------------")
-print("fetchall")
-print("----------------------------")
-print(cur.execute(select_test))
-print(cur.fetchall())
-print("----------------------------")
-print("for文")
-print("----------------------------")
-for i in cur.execute(select_test):
-    print(i)
+        delete_test = "DELETE FROM pref"
+        cur.execute(delete_test)
+
+        open_csv = open("Pref.csv")
+        read_csv = csv.reader(open_csv)
+    
+        rows = []
+        for row in read_csv:
+            rows.append(row)
+
+        cur.executemany(
+            "INSERT INTO pref (id, prefname) VALUES (?, ?)", rows)
+
+    #テーブルの変更内容保存
+    con.commit()
+    open_csv.close()
 
 #データベースの接続終了
 con.close

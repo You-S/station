@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="top-wrapper">
+    <h1>Station Quiz</h1>
+    <h2>挑戦するものを選んでね</h2>
+    <form action="/quiz" method="post">
+        <select name="secondchoice">
+            {% for choice in line %}
+                <option value={{ choice.id }}>{{ choice.linename }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="hidden" name="code" value="line">
+        <input type="submit" name="submit" value="これを選択">
+    </form>
+    </div>
+</div>
+{% endblock %}

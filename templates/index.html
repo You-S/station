@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="top-wrapper">
-    <h1>駅名読み問題</h1>
-    {% for station in station %}
-    <h2>「{{ station.name }}」</h2>
-    <span>{{ station.pref }}にあるこの駅名は何と読む？<br>ひらがなで入力して下さい(カタカナはそのままで)</span>
-    <br>（{{ station.linename }}にある駅です）
+    <h1>Station Quiz</h1>
+    <h3>路線か都道府県を選んでね</h3>
     <div>
-    <form action="/check" method="post">
-        <input type="hidden" name="colect" value={{station.yomi}}>
-        <input type="text" name="answer"><br>
-        <input type="submit" name="submit" value="結果確認">
+    <form action="/" method="post">
+        <select name="choice">
+            <option value="all">全部</option>
+            <option value="line">路線</option>
+            <option value="pref">都道府県</option>
+        </select><br>
+        <input type="submit" name="submit" value="これで挑戦する">
     </form>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

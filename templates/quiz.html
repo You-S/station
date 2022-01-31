@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="top-wrapper">
+    <h1>問題</h1>
+    <h2>「{{ station.name }}」</h2>
+    <span>この駅名は何と読む？<br>ひらがなで入力して下さい(カタカナはそのままで)</span>
+    <div>
+    <form action="/check" method="post">
+        <input type="hidden" name="colect" value={{station.yomi}}>
+        <input type="text" name="answer"><br>
+        <input type="submit" name="submit" value="結果確認">
+    </form>
+    </div>
+</div>
+{% endblock %}
